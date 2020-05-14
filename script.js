@@ -71,6 +71,27 @@ var budgetController=(function(){
                     return newItem;
 
                 },
+                deleteItem:function(type,id){
+                           var ids,index
+
+                           //id=6
+                           //data.allItems[type][id]
+                           //ids =[1,2,4,6,8]
+                           //index=3
+
+                           ids=data.allItems[type].map((current)=>{
+                               return current.id
+                           })
+
+                           //console.log("this" + ids);
+                              index=ids.indexOf(id);
+                     
+                                if(index !== -1){
+                                    data.allItems[type].splice(index,1);
+
+                                }
+
+                },
                    
                 calculateBudget:function(){
                      
@@ -181,7 +202,9 @@ var UIController=(function(){
        clearFields:function(){
            var fields,fieldsArr;
 
-           fields=document.querySelectorAll(DOMstrings.inputDescription + ',' +DOMstrings.inputValue)
+           fields=document.querySelectorAll(DOMstrings.inputDescription + ',' +DOMstrings.inputValue) //return list 
+           
+           //convert a list into array    slice copy of array
            fieldsArr= Array.prototype.slice.call(fields);
            fieldsArr.forEach(function(current,index,array){
                current.value = " ";
@@ -248,9 +271,9 @@ var controller =(function(budgetCtrl,UICtrl){
                var budget =budgetCtrl.getBudget();
 
                //3 Display the budget on the Ui
-       //console.log(budget);
-        UICtrl.displayBudget(budget);
-           }
+                    //console.log(budget);
+                     UICtrl.displayBudget(budget);
+                                         }
      
                 
 
@@ -289,12 +312,13 @@ var controller =(function(budgetCtrl,UICtrl){
            //string to object
            splitID =itemID.split('-');
            type=splitID[0];
-           Id =splitID[1];
+         //  ID =splitID[1];   this pass the string in to further process
+         ID =parseInt(splitID[1]);
 
 
            // delete the item from data structure
 
-
+             budgetController.deleteItem(type,ID);
            // delete the item from the user interface 
 
 
